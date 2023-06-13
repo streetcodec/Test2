@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		
+	</title>
+</head>
+<script type="module" src = "https://unpkg.com/@google/model-viewer@3.1.0/dist/model-viewer.min.js"></script>
+
+
+<style>
+	model-viewer
+	{
+		width:  800 px;
+		height:  400px;
+	}
+</style>
+<body>
+	
+<model-viewer id="dimension-demo" ar ar-placement="wall" ar-scale="fixed" src="1.glb" alt="A 3D model of an armchair.">
+  <button slot="hotspot-dot+X-Y+Z" class="dot" data-position="1 -1 1" data-normal="1 0 0"></button>
+  <button slot="hotspot-dim+X-Y" class="dim" data-position="1 -1 0" data-normal="1 0 0"></button>
+  <button slot="hotspot-dot+X-Y-Z" class="dot" data-position="1 -1 -1" data-normal="1 0 0"></button>
+  <button slot="hotspot-dim+X-Z" class="dim" data-position="1 0 -1" data-normal="1 0 0"></button>
+  <button slot="hotspot-dot+X+Y-Z" class="dot" data-position="1 1 -1" data-normal="0 1 0"></button>
+  <button slot="hotspot-dim+Y-Z" class="dim" data-position="0 -1 -1" data-normal="0 1 0"></button>
+  <button slot="hotspot-dot-X+Y-Z" class="dot" data-position="-1 1 -1" data-normal="0 1 0"></button>
+  <button slot="hotspot-dim-X-Z" class="dim" data-position="-1 0 -1" data-normal="-1 0 0"></button>
+  <button slot="hotspot-dot-X-Y-Z" class="dot" data-position="-1 -1 -1" data-normal="-1 0 0"></button>
+  <button slot="hotspot-dim-X-Y" class="dim" data-position="-1 -1 0" data-normal="-1 0 0"></button>
+  <button slot="hotspot-dot-X-Y+Z" class="dot" data-position="-1 -1 1" data-normal="-1 0 0"></button>
+  <svg id="dimLines" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" class="dimensionLineContainer">
+    <line class="dimensionLine"></line>
+    <line class="dimensionLine"></line>
+    <line class="dimensionLine"></line>
+    <line class="dimensionLine"></line>
+    <line class="dimensionLine"></line>
+  </svg>
+  
+  <div id="controls" class="dim">
+    <label for="src">Product:</label>
+    <select id="src">
+      <option value="1W.glb">1</option>
+      <option value="2W.glb">2</option>
+      <option value="3W.glb">3</option>
+      <option value="4W.glb">4</option>
+      <option value="5W.glb">5</option>
+      <!-- <option value="6.glb">6</option>
+      <option value="7.glb">7</option>
+      <option value="8.glb">8</option>
+      <option value="9.glb">9</option>
+      <option value="10.glb">10</option>
+      <option value="11.glb">11</option>
+      <option value="7Wood.glb">7 Wooden</option> -->
+      
+    </select><br>
+
+    <!-- <label for="show-dimensions">Show Dimensions:</label>
+    <input id="show-dimensions" type="checkbox" checked="true">
+  </div> -->
+  <div class="controls" >
+    <div>Frame Variant: <select id="variant"></select></div>
+  </div>
+</model-viewer>
+
+<script type="module">
+  const modelViewerVariants = document.querySelector("model-viewer#dimension-demo");
+        const select = document.querySelector('#variant');
+        modelViewerVariants.addEventListener('load', () => {
+
+          const names = modelViewerVariants.availableVariants;
+          for (const name of names) // creates a list (dropdown) with options, stored in glb. 
+          {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            
+            select.appendChild(option);
+          
+          }
+          
+
+        });
+        
+        
+        // actually changes color, and scale.
+        select.addEventListener('input', (event) => {
+          
+          modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
+        
+        
+           //updateScaleVar(2,2);
+          console.log(modelViewerVariants.variantName);
+        });
+  const modelViewer = document.querySelector('#dimension-demo');
+
+  modelViewer.querySelector('#src').addEventListener('input', (event) => {
+        modelViewer.src = event.target.value;
+        switch(event.target.value) 
+        { 
+          case "1W" : updateScaleVar(1.71 , 1.71);
+                                      break;
+          case "2W" : updateScaleVar(0.33,0.33);
+                                             break;
+          case "3W" : updateScaleVar(1.36,1.466);
+                               break;
+          case "4W" : updateScaleVar(2.69,2.63);
+                              break;
+          case "5W" : updateScaleVar(1.27,1.05);
+                              break;
+          default : break;
+        }
+
+      });
+function updateScaleVar( p , q )
+       {
+        modelViewerVariants.scale = `${p} ${q} ${1}`; 
+
+       }
+  const checkbox = modelViewer.querySelector('#show-dimensions');
+
+  function setVisibility(element)
+  {
+    if (checkbox.checked)  element.classList.remove('hide');
+     else element.classList.add('hide');
+    
+  }
+
+  checkbox.addEventListener('change', () => {
+    setVisibility(modelViewer.querySelector('#dimLines'));
+    modelViewer.querySelectorAll('button').forEach((hotspot) => {
+      setVisibility(hotspot);
+    });
+  });
+
+  // update svg
+  function drawLine(svgLine, dotHotspot1, dotHotspot2, dimensionHotspot) {
+    if (dotHotspot1 && dotHotspot2) {
+      svgLine.setAttribute('x1', dotHotspot1.canvasPosition.x);
+      svgLine.setAttribute('y1', dotHotspot1.canvasPosition.y);
+      svgLine.setAttribute('x2', dotHotspot2.canvasPosition.x);
+      svgLine.setAttribute('y2', dotHotspot2.canvasPosition.y);
+
+      // use provided optional hotspot to tie visibility of this svg line to
+      // if (dimensionHotspot && !dimensionHotspot.facingCamera) {
+      //   svgLine.classList.add('hide');
+      // }
+      // else {
+      //   svgLine.classList.remove('hide');
+      // }
+    }
+  }
+
+  const dimLines = modelViewer.querySelectorAll('line');
+
+  const renderSVG = () => {
+    drawLine(dimLines[0], modelViewer.queryHotspot('hotspot-dot+X-Y+Z'), modelViewer.queryHotspot('hotspot-dot+X-Y-Z'));
+    drawLine(dimLines[1], modelViewer.queryHotspot('hotspot-dot+X-Y-Z'), modelViewer.queryHotspot('hotspot-dot+X+Y-Z'));
+    drawLine(dimLines[2], modelViewer.queryHotspot('hotspot-dot+X+Y-Z'), modelViewer.queryHotspot('hotspot-dot-X+Y-Z')); // always visible
+    drawLine(dimLines[3], modelViewer.queryHotspot('hotspot-dot-X+Y-Z'), modelViewer.queryHotspot('hotspot-dot-X-Y-Z'));
+    drawLine(dimLines[4], modelViewer.queryHotspot('hotspot-dot-X-Y-Z'), modelViewer.queryHotspot('hotspot-dot-X-Y+Z'));
+  };
+
+  modelViewer.addEventListener('camera-change', renderSVG);
+
+  modelViewer.addEventListener('load', () => {
+
+    //updateScaleVar(2,2);
+    
+    const center = modelViewer.getBoundingBoxCenter();
+    const size = modelViewer.getDimensions();
+    console.log(size.x);
+    const x2 = size.x / 2;
+    const y2 = size.y / 2;
+    const z2 = size.z / 2;
+   // updateScaleVar(36*2.54/200, 36*2.54/200 ); // (this pic size / initial size)
+   //updateScaleVar(7/(size.x * 50/2.54),7/(size.y * 50/2.54));
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dot+X-Y+Z',
+  //     position: `${center.x + x2} ${center.y - y2} ${center.z + z2}`
+  //   });
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dim+X-Y',
+  //     position: `${center.x + x2 * 1.2} ${center.y - y2 * 1.1} ${center.z}`
+  //   });
+  //   modelViewer.querySelector('button[slot="hotspot-dim+X-Y"]').textContent =
+  //       `${(size.z * 100).toFixed(0)} cm`;
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dot+X-Y-Z',
+  //     position: `${center.x + x2} ${center.y - y2} ${center.z - z2}`
+  //   });
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dim+X-Z',
+  //     position: `${center.x + x2 * 1.2} ${center.y} ${center.z - z2 * 1.2}`
+  //   });
+  //   modelViewer.querySelector('button[slot="hotspot-dim+X-Z"]').textContent =
+  //       `${(size.y * 100).toFixed(0)} cm`;
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dot+X+Y-Z',
+  //     position: `${center.x + x2} ${center.y + y2} ${center.z - z2}`
+  //   });
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dim+Y-Z',
+  //     position: `${center.x} ${center.y + y2 * 1.1} ${center.z - z2 * 1.1}`
+  //   });
+  //   modelViewer.querySelector('button[slot="hotspot-dim+Y-Z"]').textContent =
+  //       `${(size.x * 50/2.54).toFixed(0)} in`;
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dot-X+Y-Z',
+  //     position: `${center.x - x2} ${center.y + y2} ${center.z - z2}`
+  //   });
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dim-X-Z',
+  //     position: `${center.x - x2 * 1.2} ${center.y} ${center.z - z2 * 1.2}`
+  //   });
+  //   modelViewer.querySelector('button[slot="hotspot-dim-X-Z"]').textContent =
+  //       `${(size.y * 50/2.54).toFixed(0)} cm`;
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dot-X-Y-Z',
+  //     position: `${center.x - x2} ${center.y - y2} ${center.z - z2}`
+  //   });
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dim-X-Y',
+  //     position: `${center.x - x2 * 1.2} ${center.y - y2 * 1.1} ${center.z}`
+  //   });
+  //   modelViewer.querySelector('button[slot="hotspot-dim-X-Y"]').textContent =
+  //       `${(size.z * 100).toFixed(0)} cm`;
+
+  //   modelViewer.updateHotspot({
+  //     name: 'hotspot-dot-X-Y+Z',
+  //     position: `${center.x - x2} ${center.y - y2} ${center.z + z2}`
+  //   });
+
+  //   renderSVG();
+   });
+  
+</script>
+<style>
+  #controls {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    max-width: unset;
+    transform: unset;
+    pointer-events: auto;
+    z-index: 100;
+  }
+
+  .dot{
+    display: none;
+  }
+
+  .dim{
+    background: #fff;
+    border-radius: 4px;
+    border: none;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.8);
+    display: block;
+    font-family: Futura, Helvetica Neue, sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    max-width: 128px;
+    overflow-wrap: break-word;
+    padding: 0.5em 1em;
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    transform: translate3d(-50%, -50%, 0);
+    pointer-events: none;
+    --min-hotspot-opacity: 0;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .dim{
+      font-size: 3vw;
+    }
+  }
+
+  .dimensionLineContainer{
+    pointer-events: none;
+    display: block;
+  }
+
+  .dimensionLine{
+    stroke: #16a5e6;
+    stroke-width: 2;
+    stroke-dasharray: 2;
+  }
+
+  .hide{
+    display: none;
+  }
+  /* This keeps child nodes hidden while the element loads */
+  :not(:defined) > * {
+    display: none;
+  }
+</style>
+</body>
+</html>
+<!-- <model-viewer id="var" src="9.glb" ar ar-placement="wall" ar-scale = "fixed">
+    <div class="controls" >
+      <div>Frame Variant: <select id="variant"></select></div>
+    </div>
+      </model-viewer>
+      <script>
+        const modelViewerVariants = document.querySelector("model-viewer#var");
+        const select = document.querySelector('#variant');
+        modelViewerVariants.addEventListener('load', () => {
+
+          const names = modelViewerVariants.availableVariants;
+          for (const name of names) // creates a list (dropdown) with options, stored in glb. 
+          {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            
+            select.appendChild(option);
+          
+          }
+          // Adds a default option.
+          const option = document.createElement('option');
+            option.value = 'default';
+            option.textContent = 'Default';
+            select.appendChild(option);
+        });
+        
+        //actually changes color, and scale.
+        select.addEventListener('input', (event) => {
+          // document.getElementById("var").src="SM_Dice.glb";
+          
+          // $('var').attr("src", );  //change src from db.
+          
+          modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
+          
+          switch(modelViewerVariants.variantName) // using to scale the images to original size, by relatively comparing it to default image, of 28*21 inches square.  
+          { 
+            case "Hamuman" : updateScaleVar(1.36017 , 1.33);
+                                        break;
+            case "Animals Gond" : updateScaleVar(0.31,0.423);
+                                               break;
+            case "Dancing Krishna With Cows" : updateScaleVar(2.811,2.418);
+                                                                    break;
+            case "White" : break;
+            case "Black" : break;
+            default : break;//updateScaleVar(1.27,1.27);
+          }
+          
+            
+          
+          console.log(modelViewerVariants.variantName);
+       });
+
+       //for scale
+       function updateScaleVar( p , q )
+       {
+        modelViewerVariants.scale = `${p} ${q} ${1}`; 
+
+       }
+      </script>
+      
+      
+</body>
+</html>  -->
