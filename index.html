@@ -97,35 +97,10 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
        });
 
 
-//    modelViewer.addEventListener('load', () => {
 
-    
-//     const center = modelViewer.getBoundingBoxCenter();
-//     const size = modelViewer.getDimensions();
-//     console.log(size);
-//      x2 = size.x ;
-//       y2 = size.y ;
-  
-//     });
 
     document.getElementById("but").onclick = function(){
-  // // var s = document.getElementById("dimension-demo").getAttribute("src");
-  // // // //modelViewer.src = check;
-  // // // modelViewer.src = s; 
-  // // location.reload();
-  // // const size1 = modelViewer.getDimensions();
-  // //  console.log(size1);
-  // //  modelViewer.scale = `${x2/(size1.x)} ${y2/(size1.y)} ${1}`;
-  // const model = document.querySelector('model-viewer#dimension-demo');
-  // const originalScale = { x: 1, y: 1, z: 1 }; // Assuming original scale is (1, 1, 1)
-  // // ht_wd(20,20);
-  // console.log(model.scale);
   
-  // // Check if the model's current scale is different from the original scale
-  // // if (model.scale.x !== originalScale.x ||
-  // //     model.scale.y !== originalScale.y ||
-  // //     model.scale.z !== originalScale.z) {
-  // //   model.scale = originalScale;
             ht_wd(48,72);
              const ss = modelViewer.getDimensions();
              console.log(ss);
@@ -135,7 +110,7 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
              console.log(r);
 
              console.log("Chal Rha Hai");
-  //     }
+  
     
     
 
@@ -219,70 +194,7 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
 </style>
 </body>
 </html>
-<!-- <model-viewer id="var" src="9.glb" ar ar-placement="wall" ar-scale = "fixed">
-    <div class="controls" >
-      <div>Frame Variant: <select id="variant"></select></div>
-    </div>
-      </model-viewer>
-      <script>
-        const modelViewerVariants = document.querySelector("model-viewer#var");
-        const select = document.querySelector('#variant');
-        modelViewerVariants.addEventListener('load', () => {
 
-          const names = modelViewerVariants.availableVariants;
-          for (const name of names) // creates a list (dropdown) with options, stored in glb. 
-          {
-            const option = document.createElement('option');
-            option.value = name;
-            option.textContent = name;
-            
-            select.appendChild(option);
-          
-          }
-          // Adds a default option.
-          const option = document.createElement('option');
-            option.value = 'default';
-            option.textContent = 'Default';
-            select.appendChild(option);
-        });
-        
-        //actually changes color, and scale.
-        select.addEventListener('input', (event) => {
-          // document.getElementById("var").src="SM_Dice.glb";
-          
-          // $('var').attr("src", );  //change src from db.
-          
-          modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
-          
-          switch(modelViewerVariants.variantName) // using to scale the images to original size, by relatively comparing it to default image, of 28*21 inches square.  
-          { 
-            case "Hamuman" : updateScaleVar(1.36017 , 1.33);
-                                        break;
-            case "Animals Gond" : updateScaleVar(0.31,0.423);
-                                               break;
-            case "Dancing Krishna With Cows" : updateScaleVar(2.811,2.418);
-                                                                    break;
-            case "White" : break;
-            case "Black" : break;
-            default : break;//updateScaleVar(1.27,1.27);
-          }
-          
-            
-          
-          console.log(modelViewerVariants.variantName);
-       });
-
-       //for scale
-       function updateScaleVar( p , q )
-       {
-        modelViewerVariants.scale = `${p} ${q} ${1}`; 
-
-       }
-      </script>
-      
-      
-</body>
-</html>  
 
 
 
