@@ -12,6 +12,296 @@
 
 
 <style>
+  /* Sets height and width of viewable image on html page. */
+model-viewer  
+	{
+		width:  800 px;
+		height:  400px;
+	}
+</style>
+<body>
+  
+<model-viewer id="dimension-demo" ar ar-placement="wall" src="6896487104701.glb" alt="A 3D model of an armchair.">
+  <button id = "but" type="button" class="button">Click me</button>
+  <div id="controls" class="dim">
+    <label for="src">Product:</label>
+    <select id="src">
+      <option value="6896487104701.glb">6896487104701</option>
+      <option value="7599784132822.glb">7599784132822</option>
+      <option value="7625737502934.glb">7625737502934</option>
+      <option value="4W.glb">4</option>
+      <option value="5W.glb">5</option> <!--multiple options for testing. -->
+      <option value="bigimg.glb">bigimg</option>
+      
+      
+    </select><br>
+  
+  <div class="controls" > <!-- Creates a div wich will have a list of variants of frame colors. --> 
+    <div>Frame Variant: <select id="variant"></select></div>
+  </div>
+</model-viewer>
+
+<script type="module">
+  var x2;
+  var y2;
+  //var check = "11.glb";
+  const modelViewerVariants = document.querySelector("model-viewer#dimension-demo");
+        const select = document.querySelector('#variant');
+        modelViewerVariants.addEventListener('load', () => {
+
+          const names = modelViewerVariants.availableVariants; // call to get all the variants stored inside glb file.
+          for (const name of names) // creates a list (dropdown) with options, stored in glb. 
+          {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            
+            select.appendChild(option);
+          
+          }
+          
+          
+
+        });
+        
+      
+        // actually changes color of the frame.
+        select.addEventListener('input', (event) => {
+          
+          modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
+        
+        
+          //console.log(modelViewerVariants.variantName);
+        });
+  
+function ht_wd(ht,wd) // Takes 2 parameters, height(ht) and width(wd), both in inches.
+{
+  const modelViewer = document.querySelector('#dimension-demo');
+  //modelViewer.src = event.target.value;
+    const size = modelViewer.getDimensions(); // returns the dimension of glb, in meters. 
+    console.log(size);
+     x2 = size.x ; // saves width (x-axis) of glb model.
+      y2 = size.y ;// saves height (y-axis) of glb model.
+      modelViewer.scale = `${1.2*wd/(x2*39.3701)} ${1.2*ht/(y2*39.3701)} ${1}`;  
+      // simple unitary method to set new dimensions. we convert x2 and y2 to inches. Scaling means multipling with original dimensions, which are x2 and y2 repectively.
+      // hence dividing by those original dimensions and multiply with new will result in accurate dimensions.
+
+}
+const modelViewer = document.querySelector('#dimension-demo');
+
+// funtion to implement changes in src. this is purely for testing, as mentioned in html.
+modelViewer.querySelector('#src').addEventListener('input', (event) => {
+         modelViewer.src = event.target.value;  // change the src of the model viewer.
+ 
+
+       });
+
+
+//    modelViewer.addEventListener('load', () => {
+
+    
+//     const center = modelViewer.getBoundingBoxCenter();
+//     const size = modelViewer.getDimensions();
+//     console.log(size);
+//      x2 = size.x ;
+//       y2 = size.y ;
+  
+//     });
+
+    document.getElementById("but").onclick = function(){
+  // // var s = document.getElementById("dimension-demo").getAttribute("src");
+  // // // //modelViewer.src = check;
+  // // // modelViewer.src = s; 
+  // // location.reload();
+  // // const size1 = modelViewer.getDimensions();
+  // //  console.log(size1);
+  // //  modelViewer.scale = `${x2/(size1.x)} ${y2/(size1.y)} ${1}`;
+  // const model = document.querySelector('model-viewer#dimension-demo');
+  // const originalScale = { x: 1, y: 1, z: 1 }; // Assuming original scale is (1, 1, 1)
+  // // ht_wd(20,20);
+  // console.log(model.scale);
+  
+  // // Check if the model's current scale is different from the original scale
+  // // if (model.scale.x !== originalScale.x ||
+  // //     model.scale.y !== originalScale.y ||
+  // //     model.scale.z !== originalScale.z) {
+  // //   model.scale = originalScale;
+            ht_wd(48,72);
+             const ss = modelViewer.getDimensions();
+             console.log(ss);
+             const k = modelViewer.zoom(1);
+             console.log(k);
+             const r  = modelViewer.getCameraOrbit().radius;
+             console.log(r);
+
+             console.log("Chal Rha Hai");
+  //     }
+    
+    
+
+  
+  }
+    
+  
+</script>
+<style> 
+.button {
+       top:11%;
+       left:55%;
+       width:100px;
+       height:40px;
+       position: absolute;
+    
+}
+/*  model-viewer::part(default-ar-button)
+  {
+  background-color: red;
+ } */
+  #controls {
+    position: absolute;
+    bottom: 160px;
+    left: 16px;
+    max-width: unset;
+    transform: unset;
+    pointer-events: auto;
+    z-index: 100;
+  }
+
+  .dot{
+    display: none;
+  }
+
+  .dim{
+    background: #fff;
+    border-radius: 4px;
+    border: none;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.8);
+    display: block;
+    font-family: Futura, Helvetica Neue, sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    max-width: 128px;
+    overflow-wrap: break-word;
+    padding: 0.5em 1em;
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    transform: translate3d(-50%, -50%, 0);
+    pointer-events: none;
+    --min-hotspot-opacity: 0;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .dim{
+      font-size: 3vw;
+    }
+  }
+
+  .dimensionLineContainer{
+    pointer-events: none;
+    display: block;
+  }
+
+  .dimensionLine{
+    stroke: #16a5e6;
+    stroke-width: 2;
+    stroke-dasharray: 2;
+  }
+
+  .hide{
+    display: none;
+  }
+  :not(:defined) > * {
+    display: none;
+  }
+</style>
+</body>
+</html>
+<!-- <model-viewer id="var" src="9.glb" ar ar-placement="wall" ar-scale = "fixed">
+    <div class="controls" >
+      <div>Frame Variant: <select id="variant"></select></div>
+    </div>
+      </model-viewer>
+      <script>
+        const modelViewerVariants = document.querySelector("model-viewer#var");
+        const select = document.querySelector('#variant');
+        modelViewerVariants.addEventListener('load', () => {
+
+          const names = modelViewerVariants.availableVariants;
+          for (const name of names) // creates a list (dropdown) with options, stored in glb. 
+          {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            
+            select.appendChild(option);
+          
+          }
+          // Adds a default option.
+          const option = document.createElement('option');
+            option.value = 'default';
+            option.textContent = 'Default';
+            select.appendChild(option);
+        });
+        
+        //actually changes color, and scale.
+        select.addEventListener('input', (event) => {
+          // document.getElementById("var").src="SM_Dice.glb";
+          
+          // $('var').attr("src", );  //change src from db.
+          
+          modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
+          
+          switch(modelViewerVariants.variantName) // using to scale the images to original size, by relatively comparing it to default image, of 28*21 inches square.  
+          { 
+            case "Hamuman" : updateScaleVar(1.36017 , 1.33);
+                                        break;
+            case "Animals Gond" : updateScaleVar(0.31,0.423);
+                                               break;
+            case "Dancing Krishna With Cows" : updateScaleVar(2.811,2.418);
+                                                                    break;
+            case "White" : break;
+            case "Black" : break;
+            default : break;//updateScaleVar(1.27,1.27);
+          }
+          
+            
+          
+          console.log(modelViewerVariants.variantName);
+       });
+
+       //for scale
+       function updateScaleVar( p , q )
+       {
+        modelViewerVariants.scale = `${p} ${q} ${1}`; 
+
+       }
+      </script>
+      
+      
+</body>
+</html>  
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		
+	</title>
+</head>
+<script type="module" src = "https://unpkg.com/@google/model-viewer@3.1.0/dist/model-viewer.min.js"></script>
+
+
+<style>
 	model-viewer
 	{
 		width:  800 px;
@@ -21,7 +311,7 @@
 <body>
 	
 <model-viewer id="dimension-demo" ar ar-placement="wall" ar-scale="fixed" src="1.glb" alt="A 3D model of an armchair.">
-  <button slot="hotspot-dot+X-Y+Z" class="dot" data-position="1 -1 1" data-normal="1 0 0"></button>
+<!--   <button slot="hotspot-dot+X-Y+Z" class="dot" data-position="1 -1 1" data-normal="1 0 0"></button>
   <button slot="hotspot-dim+X-Y" class="dim" data-position="1 -1 0" data-normal="1 0 0"></button>
   <button slot="hotspot-dot+X-Y-Z" class="dot" data-position="1 -1 -1" data-normal="1 0 0"></button>
   <button slot="hotspot-dim+X-Z" class="dim" data-position="1 0 -1" data-normal="1 0 0"></button>
@@ -38,7 +328,7 @@
     <line class="dimensionLine"></line>
     <line class="dimensionLine"></line>
     <line class="dimensionLine"></line>
-  </svg>
+  </svg> -->
   
   <div id="controls" class="dim">
     <label for="src">Product:</label>
@@ -375,4 +665,4 @@ function updateScaleVar( p , q )
       
       
 </body>
-</html>  -->
+</html>  --> -->
