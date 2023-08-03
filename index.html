@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +23,12 @@ model-viewer
 </style>
 <body>
   
-<model-viewer id="dimension-demo" ar ar-placement="wall" src="6896487104701.usdz" alt="A 3D model of an armchair.">
+<model-viewer id="dimension-demo" ar ar-placement="wall" ios-src="6896487104701.usdz" alt="A 3D model of an armchair.">
   <button id = "but" type="button" class="button">Click me</button>
   <div id="controls" class="dim">
     <label for="ios-src">Product:</label>
     <select id="src">
-      <option value="6896487104701(usdz).usdz">6896487104701(usdz)</option>
-      <option value="6896487104701.glb">6896487104701</option>
+      <option value="6896487104701.usdz">6896487104701</option>
       <option value="7599784132822.glb">7599784132822</option>
       <option value="7625737502934.glb">7625737502934</option>
       <option value="4W.glb">4</option>
@@ -41,7 +42,16 @@ model-viewer
     <div>Frame Variant: <select id="variant"></select></div>
   </div>
 </model-viewer>
-
+<button type="button" class=
+			"btn btn-default" id="generate">
+			Get QR
+		</button>
+		</div>
+	</div>
+	</div>
+</div>
+<img src= "" class="qr-code img-thumbnail img-responsive" />
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="module">
   var x2;
   var y2;
@@ -98,10 +108,35 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
        });
 
 
+//    modelViewer.addEventListener('load', () => {
 
+    
+//     const center = modelViewer.getBoundingBoxCenter();
+//     const size = modelViewer.getDimensions();
+//     console.log(size);
+//      x2 = size.x ;
+//       y2 = size.y ;
+  
+//     });
 
     document.getElementById("but").onclick = function(){
+  // // var s = document.getElementById("dimension-demo").getAttribute("src");
+  // // // //modelViewer.src = check;
+  // // // modelViewer.src = s; 
+  // // location.reload();
+  // // const size1 = modelViewer.getDimensions();
+  // //  console.log(size1);
+  // //  modelViewer.scale = `${x2/(size1.x)} ${y2/(size1.y)} ${1}`;
+  // const model = document.querySelector('model-viewer#dimension-demo');
+  // const originalScale = { x: 1, y: 1, z: 1 }; // Assuming original scale is (1, 1, 1)
+  // // ht_wd(20,20);
+  // console.log(model.scale);
   
+  // // Check if the model's current scale is different from the original scale
+  // // if (model.scale.x !== originalScale.x ||
+  // //     model.scale.y !== originalScale.y ||
+  // //     model.scale.z !== originalScale.z) {
+  // //   model.scale = originalScale;
             ht_wd(48,72);
              const ss = modelViewer.getDimensions();
              console.log(ss);
@@ -111,14 +146,43 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
              console.log(r);
 
              console.log("Chal Rha Hai");
-  
+  //     }
     
     
 
   
   }
-    
-  
+  function htmlEncode(value) {
+	return $('<div/>').text(value)
+		.html();
+	}
+
+	$(function () {
+
+	// Specify an onclick function
+	// for the generate button
+	$('#generate').click(function () {
+
+		// Generate the link that would be
+		// used to generate the QR Code
+		// with the given data
+    let u = $(location).attr('href');
+		let finalURL =
+'https://chart.googleapis.com/chart?cht=qr&chl=' +
+		htmlEncode(u+"#launch-ar") +
+		'&chs=160x160&chld=L|0'
+
+		// Replace the src of the image with
+		// the QR code image
+		$('.qr-code').attr('src', finalURL);
+	});
+	});
+  const mv = document.querySelector('#dimension-demo');
+  if (window.location.hash === '#launch-ar') {
+      // Automatically launch AR mode
+      console.log("Haa kaam karra")
+      mv.activateAR();
+    }
 </script>
 <style> 
 .button {
@@ -195,9 +259,3 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
 </style>
 </body>
 </html>
-
-
-
-
-
-
