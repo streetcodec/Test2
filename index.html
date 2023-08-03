@@ -178,7 +178,13 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
 	});
 	});
   const mv = document.querySelector('#dimension-demo');
-  if (window.location.hash === '#launch-ar') {
+  const currentURL = window.location.href;
+
+ // Suffix to check
+ const suffixToCheck = "/launch-ar";
+
+// Check if the suffix exists in the URL
+  if (currentURL.endsWith(suffixToCheck)) {
       // Automatically launch AR mode
       console.log("Haa kaam karra")
       mv.activateAR();
@@ -189,7 +195,7 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
        top:11%;
        left:55%;
        width:100px;
-       height:40px;
+       height:50px;
        position: absolute;
     
 }
