@@ -169,7 +169,7 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
     let u = $(location).attr('href');
 		let finalURL =
 'https://chart.googleapis.com/chart?cht=qr&chl=' +
-		htmlEncode(u+"-launch-ar") +
+		htmlEncode(u+"#launch-ar") +
 		'&chs=160x160&chld=L|0'
 
 		// Replace the src of the image with
@@ -181,7 +181,7 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
   const currentURL = window.location.href;
 
  // Suffix to check
- const suffixToCheck = "-launch-ar";
+ const suffixToCheck = "#launch-ar";
 
 // Check if the suffix exists in the URL
   if (currentURL.endsWith(suffixToCheck)) {
