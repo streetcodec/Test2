@@ -42,8 +42,7 @@ model-viewer
     <div>Frame Variant: <select id="variant"></select></div>
   </div>
 </model-viewer>
-<button type="button" class=
-			"btn btn-default" id="generate">
+<button type="button" class="btn btn-default" id="generate" >
 			Get QR
 		</button>
 		</div>
@@ -152,31 +151,59 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
 
   
   }
-  function htmlEncode(value) {
-	return $('<div/>').text(value)
-		.html();
-	}
+//   function htmlEncode(value) {
+// 	return $('<div/>').text(value)
+// 		.html();
+// 	}
 
-	$(function () {
+// 	$(function () {
 
-	// Specify an onclick function
-	// for the generate button
-	$('#generate').click(function () {
+// 	// Specify an onclick function
+// 	// for the generate button
+// 	$('#generate').click(function () {
 
-		// Generate the link that would be
-		// used to generate the QR Code
-		// with the given data
-    let u = $(location).attr('href');
-		let finalURL =
-'https://chart.googleapis.com/chart?cht=qr&chl=' +
-		htmlEncode(u+"%23launch-ar") +
-		'&chs=160x160&chld=L|0'
+// 		// Generate the link that would be
+// 		// used to generate the QR Code
+// 		// with the given data
+//     let u = $(location).attr('href');
+// 		let finalURL =
+// 'https://chart.googleapis.com/chart?cht=qr&chl=' +
+// 		htmlEncode(u+"%23launch-ar") +
+// 		'&chs=160x160&chld=L|0'
 
-		// Replace the src of the image with
-		// the QR code image
-		$('.qr-code').attr('src', finalURL);
-	});
-	});
+// 		// Replace the src of the image with
+// 		// the QR code image
+// 		$('.qr-code').attr('src', finalURL);
+// 	});
+// 	});
+function generateQRCode(url) {
+      // Modify the URL by appending '#launch-ar'
+      const modifiedUrl = url + '#launch-ar';
+
+      // Encode the modified URL
+      const encodedUrl = encodeURIComponent(modifiedUrl);
+
+      // Construct the QR code API URL
+      const apiBaseUrl = 'https://qrcode.tec-it.com/API/QRCode';
+      const params = `data=${encodedUrl}&backcolor=%23ffffff`;
+      const apiUrl = `${apiBaseUrl}?${params}`;
+
+      // Create an <img> element for the QR code
+      const qrCodeImg = document.createElement('img');
+      qrCodeImg.src = apiUrl;
+
+      // Add the QR code image to the 'qrcode' div
+      const qrcodeDiv = document.getElementById('qrcode');
+      qrcodeDiv.appendChild(qrCodeImg);
+    }
+
+    // Call the function with the current URL
+    const generateButton = document.getElementById('generate');
+    generateButton.addEventListener('click', () => {
+      generateQRCode(window.location.href);
+    });
+	     
+	    
   const mv = document.querySelector('#dimension-demo');
   const currentURL = window.location.href;
 
