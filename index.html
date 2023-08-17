@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,9 +21,8 @@ model-viewer
 	}
 </style>
 <body>
-  
+  <img src= "" class="qr-code img-thumbnail img-responsive" />
 <model-viewer id="dimension-demo" ar ar-placement="wall" src="6896487104701.glb" alt="A 3D model of an armchair.">
-  <button id = "but" type="button" class="button">Click me</button>
   <div id="controls" class="dim">
     <label for="ios-src">Product:</label>
     <select id="src">
@@ -42,14 +40,15 @@ model-viewer
     <div>Frame Variant: <select id="variant"></select></div>
   </div>
 </model-viewer>
-<button type="button" class="btn btn-default" id="generate" >
+<button type="button" class=
+			"btn btn-default" id="generate">
 			Get QR
 		</button>
 		</div>
 	</div>
 	</div>
 </div>
-<img src= "" class="qr-code img-thumbnail img-responsive" />
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="module">
   var x2;
@@ -60,6 +59,7 @@ model-viewer
         modelViewerVariants.addEventListener('load', () => {
 
           const names = modelViewerVariants.availableVariants; // call to get all the variants stored inside glb file.
+          $("#variant").empty();
           for (const name of names) // creates a list (dropdown) with options, stored in glb. 
           {
             const option = document.createElement('option');
@@ -118,92 +118,64 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
   
 //     });
 
-    document.getElementById("but").onclick = function(){
-  // // var s = document.getElementById("dimension-demo").getAttribute("src");
-  // // // //modelViewer.src = check;
-  // // // modelViewer.src = s; 
-  // // location.reload();
-  // // const size1 = modelViewer.getDimensions();
-  // //  console.log(size1);
-  // //  modelViewer.scale = `${x2/(size1.x)} ${y2/(size1.y)} ${1}`;
-  // const model = document.querySelector('model-viewer#dimension-demo');
-  // const originalScale = { x: 1, y: 1, z: 1 }; // Assuming original scale is (1, 1, 1)
-  // // ht_wd(20,20);
-  // console.log(model.scale);
+  //   document.getElementById("but").onclick = function(){
+  // // // var s = document.getElementById("dimension-demo").getAttribute("src");
+  // // // // //modelViewer.src = check;
+  // // // // modelViewer.src = s; 
+  // // // location.reload();
+  // // // const size1 = modelViewer.getDimensions();
+  // // //  console.log(size1);
+  // // //  modelViewer.scale = `${x2/(size1.x)} ${y2/(size1.y)} ${1}`;
+  // // const model = document.querySelector('model-viewer#dimension-demo');
+  // // const originalScale = { x: 1, y: 1, z: 1 }; // Assuming original scale is (1, 1, 1)
+  // // // ht_wd(20,20);
+  // // console.log(model.scale);
   
-  // // Check if the model's current scale is different from the original scale
-  // // if (model.scale.x !== originalScale.x ||
-  // //     model.scale.y !== originalScale.y ||
-  // //     model.scale.z !== originalScale.z) {
-  // //   model.scale = originalScale;
-            ht_wd(48,72);
-             const ss = modelViewer.getDimensions();
-             console.log(ss);
-             const k = modelViewer.zoom(1);
-             console.log(k);
-             const r  = modelViewer.getCameraOrbit().radius;
-             console.log(r);
+  // // // Check if the model's current scale is different from the original scale
+  // // // if (model.scale.x !== originalScale.x ||
+  // // //     model.scale.y !== originalScale.y ||
+  // // //     model.scale.z !== originalScale.z) {
+  // // //   model.scale = originalScale;
+  //           ht_wd(48,72);
+  //            const ss = modelViewer.getDimensions();
+  //            console.log(ss);
+  //            const k = modelViewer.zoom(1);
+  //            console.log(k);
+  //            const r  = modelViewer.getCameraOrbit().radius;
+  //            console.log(r);
 
-             console.log("Chal Rha Hai");
-  //     }
+  //            console.log("Chal Rha Hai");
+  // //     }
     
     
 
   
-  }
-//   function htmlEncode(value) {
-// 	return $('<div/>').text(value)
-// 		.html();
-// 	}
+  // }
+  function htmlEncode(value) {
+	return $('<div/>').text(value)
+		.html();
+	}
 
-// 	$(function () {
+	$(function () {
 
-// 	// Specify an onclick function
-// 	// for the generate button
-// 	$('#generate').click(function () {
+	// Specify an onclick function
+	// for the generate button
+	$('#generate').click(function () {
 
-// 		// Generate the link that would be
-// 		// used to generate the QR Code
-// 		// with the given data
-//     let u = $(location).attr('href');
-// 		let finalURL =
-// 'https://chart.googleapis.com/chart?cht=qr&chl=' +
-// 		htmlEncode(u+"%23launch-ar") +
-// 		'&chs=160x160&chld=L|0'
+		// Generate the link that would be
+		// used to generate the QR Code
+		// with the given data
+    let u = $(location).attr('href');
+		let finalURL =
+'https://chart.googleapis.com/chart?cht=qr&chl=' +
+		htmlEncode(u+"%23launch-ar") +
+		'&chs=160x160&chld=L|0'
 
-// 		// Replace the src of the image with
-// 		// the QR code image
-// 		$('.qr-code').attr('src', finalURL);
-// 	});
-// 	});
-function generateQRCode(url) {
-      // Modify the URL by appending '#launch-ar'
-      const modifiedUrl = url + '#launch-ar';
-
-      // Encode the modified URL
-      const encodedUrl = encodeURIComponent(modifiedUrl);
-
-      // Construct the QR code API URL
-      const apiBaseUrl = 'https://qrcode.tec-it.com/API/QRCode';
-      const params = `data=${encodedUrl}&backcolor=%23ffffff`;
-      const apiUrl = `${apiBaseUrl}?${params}`;
-
-      // Create an <img> element for the QR code
-      const qrCodeImg = document.createElement('img');
-      qrCodeImg.src = apiUrl;
-
-      // Add the QR code image to the 'qrcode' div
-      const qrcodeDiv = document.getElementById('qrcode');
-      qrcodeDiv.appendChild(qrCodeImg);
-    }
-
-    // Call the function with the current URL
-    const generateButton = document.getElementById('generate');
-    generateButton.addEventListener('click', () => {
-      generateQRCode(window.location.href);
-    });
-	     
-	    
+		// Replace the src of the image with
+		// the QR code image
+		$('.qr-code').attr('src', finalURL);
+	});
+	});
   const mv = document.querySelector('#dimension-demo');
   const currentURL = window.location.href;
 
@@ -211,9 +183,10 @@ function generateQRCode(url) {
  const suffixToCheck = "#launch-ar";
 
 // Check if the suffix exists in the URL
-  if (currentURL.endsWith(suffixToCheck)) {
+  if (currentURL.endsWith(suffixToCheck))
+   {
       // Automatically launch AR mode
-      console.log("Haa kaam karra")
+      console.log("Haa kaam karra");
       mv.activateAR();
     }
 </script>
@@ -232,7 +205,7 @@ function generateQRCode(url) {
  } */
   #controls {
     position: absolute;
-    bottom: 160px;
+    bottom: 140px;
     left: 16px;
     max-width: unset;
     transform: unset;
@@ -289,6 +262,78 @@ function generateQRCode(url) {
   :not(:defined) > * {
     display: none;
   }
+  .qr-code {
+  
+  position: relative; /* or "relative" depending on your layout needs */
+  top: 600px; /* Adjust the vertical position */
+  left: 50%; /* Adjust the horizontal position */
+  transform: translate(-50%, -50%); /* Center the image */
+  border: 1px solid #ccc; /* Optional: Add a border for visual clarity */
+}
 </style>
 </body>
 </html>
+<!-- <model-viewer id="var" src="9.glb" ar ar-placement="wall" ar-scale = "fixed">
+    <div class="controls" >
+      <div>Frame Variant: <select id="variant"></select></div>
+    </div>
+      </model-viewer>
+      <script>
+        const modelViewerVariants = document.querySelector("model-viewer#var");
+        const select = document.querySelector('#variant');
+        modelViewerVariants.addEventListener('load', () => {
+
+          const names = modelViewerVariants.availableVariants;
+          for (const name of names) // creates a list (dropdown) with options, stored in glb. 
+          {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            
+            select.appendChild(option);
+          
+          }
+          // Adds a default option.
+          const option = document.createElement('option');
+            option.value = 'default';
+            option.textContent = 'Default';
+            select.appendChild(option);
+        });
+        
+        //actually changes color, and scale.
+        select.addEventListener('input', (event) => {
+          // document.getElementById("var").src="SM_Dice.glb";
+          
+          // $('var').attr("src", );  //change src from db.
+          
+          modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
+          
+          switch(modelViewerVariants.variantName) // using to scale the images to original size, by relatively comparing it to default image, of 28*21 inches square.  
+          { 
+            case "Hamuman" : updateScaleVar(1.36017 , 1.33);
+                                        break;
+            case "Animals Gond" : updateScaleVar(0.31,0.423);
+                                               break;
+            case "Dancing Krishna With Cows" : updateScaleVar(2.811,2.418);
+                                                                    break;
+            case "White" : break;
+            case "Black" : break;
+            default : break;//updateScaleVar(1.27,1.27);
+          }
+          
+            
+          
+          console.log(modelViewerVariants.variantName);
+       });
+
+       //for scale
+       function updateScaleVar( p , q )
+       {
+        modelViewerVariants.scale = `${p} ${q} ${1}`; 
+
+       }
+      </script>
+      
+      
+</body>
+</html>  
