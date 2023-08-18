@@ -1,7 +1,25 @@
 {
     "asset" : {
-        "generator" : "Khronos glTF Blender I/O v3.2.43",
+        "generator" : "Khronos glTF Blender I/O v1.7.33",
         "version" : "2.0"
+    },
+    "extensionsUsed" : [
+        "KHR_materials_variants"
+    ],
+    "extensions" : {
+        "KHR_materials_variants" : {
+            "variants" : [
+                {
+                    "name" : "green"
+                },
+                {
+                    "name" : "yellow"
+                },
+                {
+                    "name" : "red"
+                }
+            ]
+        }
     },
     "scene" : 0,
     "scenes" : [
@@ -21,12 +39,40 @@
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "black",
+            "name" : "green",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
-                    0,
-                    0,
-                    0,
+                    0.020444760099053383,
+                    0.8000000715255737,
+                    0.0046319919638335705,
+                    1
+                ],
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "yellow",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.8000000715255737,
+                    0.6354118585586548,
+                    0.007374323904514313,
+                    1
+                ],
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "red",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.8000000715255737,
+                    0.013584197498857975,
+                    0.012742271646857262,
                     1
                 ],
                 "metallicFactor" : 0,
@@ -44,8 +90,32 @@
                         "NORMAL" : 1,
                         "TEXCOORD_0" : 2
                     },
+                    "extensions" : {
+                        "KHR_materials_variants" : {
+                            "mappings" : [
+                                {
+                                    "material" : 0,
+                                    "variants" : [
+                                        0
+                                    ]
+                                },
+                                {
+                                    "material" : 1,
+                                    "variants" : [
+                                        1
+                                    ]
+                                },
+                                {
+                                    "material" : 2,
+                                    "variants" : [
+                                        2
+                                    ]
+                                }
+                            ]
+                        }
+                    },
                     "indices" : 3,
-                    "material" : 0
+                    "material" : 2
                 }
             ]
         }
