@@ -21,7 +21,7 @@ model-viewer
 	}
 </style>
 <body>
-  <img src= "" class="qr-code img-thumbnail img-responsive" />
+  <img src= "" id="qrimg" />
 <model-viewer id="dimension-demo" ar ar-placement="wall" src="6896487104701.glb" alt="A 3D model of an armchair.">
   <div id="controls" class="dim">
     <label for="ios-src">Product:</label>
@@ -51,7 +51,7 @@ model-viewer
 	</div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
 <script type="module">
   var x2;
   var y2;
@@ -107,45 +107,52 @@ modelViewer.querySelector('#src').addEventListener('input', (event) => {
  
 
        });
+function handleSubmit(event) {
+    event.preventDefault();
+    let text = window.location.href;
+    let qrsrc =
+        `http://api.qrserver.com/v1/create-qr-code/?data=${text}`;
+    let qrimg = document.getElementById("qrimg");
+    qrimg.src = qrsrc;
+}
+//   function htmlEncode(value) {
+// 	return $('<div/>').text(value)
+// 		.html();
+// 	}
 
-  function htmlEncode(value) {
-	return $('<div/>').text(value)
-		.html();
-	}
+// 	$(function () {
 
-	$(function () {
+// 	// Specify an onclick function
+// 	// for the generate button
+// 	$('#generate').click(function () {
 
-	// Specify an onclick function
-	// for the generate button
-	$('#generate').click(function () {
+// 		// Generate the link that would be
+// 		// used to generate the QR Code
+// 		// with the given data
+//     let u = $(location).attr('href');
+// 		let finalURL =
+// 'https://chart.googleapis.com/chart?cht=qr&chl=' +
+// 		htmlEncode(u+"%23launch-ar") +
+// 		'&chs=160x160&chld=L|0'
 
-		// Generate the link that would be
-		// used to generate the QR Code
-		// with the given data
-    let u = $(location).attr('href');
-		let finalURL =
-'https://chart.googleapis.com/chart?cht=qr&chl=' +
-		htmlEncode(u+"%23launch-ar") +
-		'&chs=160x160&chld=L|0'
+// 		// Replace the src of the image with
+// 		// the QR code image
+// 		$('.qr-code').attr('src', finalURL);
+// 	});
+// 	});
+//   const mv = document.querySelector('#dimension-demo');
+//   const currentURL = window.location.href;
 
-		// Replace the src of the image with
-		// the QR code image
-		$('.qr-code').attr('src', finalURL);
-	});
-	});
-  const mv = document.querySelector('#dimension-demo');
-  const currentURL = window.location.href;
+//  // Suffix to check
+//  const suffixToCheck = "#launch-ar";
 
- // Suffix to check
- const suffixToCheck = "#launch-ar";
-
-// Check if the suffix exists in the URL
-  if (currentURL.endsWith(suffixToCheck))
-   {
-      // Automatically launch AR mode
-      console.log("Haa kaam karra");
-      mv.activateAR();
-    }
+// // Check if the suffix exists in the URL
+//   if (currentURL.endsWith(suffixToCheck))
+//    {
+//       // Automatically launch AR mode
+//       console.log("Haa kaam karra");
+//       mv.activateAR();
+//     }
 </script>
 <style> 
 .button {
